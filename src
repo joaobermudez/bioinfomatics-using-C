@@ -1,0 +1,68 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+using namespace std;
+
+int calHammingDist(string first, string second)
+{
+   int di = 0, hd = 0;
+   int len=first.length();
+    while (di != len)
+    {
+       if (tolower(first[di]) != tolower(second[di]))
+       {
+           hd++;
+       }
+      
+       di++;
+   }
+  
+    return hd;
+}
+
+void calTotDistance(string v, string dnaseq[])
+{
+   int reqLen = v.length();
+    string reslt = "";
+   int duatTot = 0;
+   cout << endl << setw(reqLen+2) << "Bestmatch" << " " << setw(3) << "Pos" << " " << "Hamming Distance";
+   for(int di=0; di<10; di++) {
+       int currPos=0;
+        int distMax = reqLen + 1;
+        for(int itr=0; itr<=(dnaseq[di].length() - reqLen); ++itr)
+       {
+           int tem = calHammingDist(v, dnaseq[di].substr(itr, reqLen));
+            if(tem < distMax) {
+               reslt = dnaseq[di].substr(itr, reqLen);
+                currPos = itr;
+                distMax = tem;
+            }
+
+       }
+      
+       duatTot += distMax;
+        cout << endl << setw(reqLen+2) << reslt << " " << setw(3) << currPos << " " << distMax;
+   }
+   cout << endl << "Total Distance : " << duatTot;
+}
+
+int main()
+{
+   string DNA[] = {
+                "TAGTGGTCTTTTGAGTGTAGATCTGAAGGGAAAGTATTTCCACCAGTTCGGGGTCACCCAGCAGGGCAGGGTGACTTAAT",
+                "CGCGACTCGGCGCTCACAGTTATCGCACGTTTAGACCAAAACGGAGTTGGATCCGAAACTGGAGTTTAATCGGAGTCCTT",
+                "GTTACTTGTGAGCCTGGTTAGACCCGAAATATAATTGTTGGCTGCATAGCGGAGCTGACATACGAGTAGGGGAAATGCGT",
+                "AACATCAGGCTTTGATTAAACAATTTAAGCACGTAAATCCGAATTGACCTGATGACAATACGGAACATGCCGGCTCCGGG",
+                "ACCACCGGATAGGCTGCTTATTAGGTCCAAAAGGTAGTATCGTAATAATGGCTCAGCCATGTCAATGTGCGGCATTCCAC",
+                "TAGATTCGAATCGATCGTGTTTCTCCCTCTGTGGGTTAACGAGGGGTCCGACCTTGCTCGCATGTGCCGAACTTGTACCC",
+               "GAAATGGTTCGGTGCGATATCAGGCCGTTCTCTTAACTTGGCGGTGCAGATCCGAACGTCTCTGGAGGGGTCGTGCGCTA",
+                "ATGTATACTAGACATTCTAACGCTCGCTTATTGGCGGAGACCATTTGCTCCACTACAAGAGGCTACTGTGTAGATCCGTA",
+                "TTCTTACACCCTTCTTTAGATCCAAACCTGTTGGCGCCATCTTCTTTTCGAGTCCTTGTACCTCCATTTGCTCTGATGAC",
+                "CTACCTATGTAAAACAACATCTACTAACGTAGTCCGGTCTTTCCTGATCTGCCCTAACCTACAGGTCGATCCGAAATTCG"
+
+   };
+
+   string v = "TAGATCCGAA";
+   calTotDistance(v, DNA);
+    return 0;
+}
